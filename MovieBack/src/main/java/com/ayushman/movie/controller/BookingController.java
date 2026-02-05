@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+@RestController
+@RequestMapping("/tickets")
 public class BookingController {
 
     @Autowired
     private BookingService bookingService;
 
-    @GetMapping("/tickets")
+    @GetMapping()
     public List<Ticket> viewTickets(){
         return bookingService.viewTickets();
     }
@@ -24,7 +26,7 @@ public class BookingController {
         return bookingService.bookTicket(ticketRequest);
     }
 
-    @DeleteMapping("tickets/{id}")
+    @DeleteMapping("/{id}")
     public void cancelTicket(@PathVariable Long id){
         bookingService.cancelTicket(id);
     }
