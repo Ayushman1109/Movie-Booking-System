@@ -1,9 +1,6 @@
 package com.ayushman.movie.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,7 +15,9 @@ public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long showId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "show_id")
+    private Show show;
     private String movieName;
     private long seatNumber;
     private long cost;

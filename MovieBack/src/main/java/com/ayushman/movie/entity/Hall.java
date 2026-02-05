@@ -1,13 +1,12 @@
 package com.ayushman.movie.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -18,6 +17,12 @@ public class Hall {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long theatreId;
-    private long totalSeats;
+    private Integer totalSeats;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "theatre_id")
+    private Theatre theatre;
+
+    @OneToMany(mappedBy = "hall", cascade = CascadeType.ALL)
+    private List<Show> shows;
 }
