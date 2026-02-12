@@ -5,6 +5,7 @@ import com.ayushman.movie.entity.Movie;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -14,11 +15,10 @@ public class ShowRequest {
     private Long movieId;
     private Long hallId;
     private long price;
-    private LocalDate startDate;
-    private LocalTime startTime;
-    private LocalDate endDate;
+    private LocalDateTime start;
+    private LocalDateTime end;
     private LocalTime endTime;
     private Integer seatsBooked;
-    private List<Long> availSeats;
+    private List<Integer> availSeats;
 
 }

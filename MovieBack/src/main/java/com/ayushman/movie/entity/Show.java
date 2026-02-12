@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -28,11 +29,9 @@ public class Show {
     private Hall hall;
 
     private long price;
-    private LocalDate startDate;
-    private LocalTime startTime;
-    private LocalDate endDate;
-    private LocalTime endTime;
+    private LocalDateTime start;
+    private LocalDateTime end;
     private long seatsBooked = 0;
     @ElementCollection
-    private List<Long> availSeats;
+    private List<Integer> availSeats;
 }
