@@ -8,31 +8,28 @@ import com.ayushman.movie.repository.HallRepository;
 import com.ayushman.movie.repository.MovieRepository;
 import com.ayushman.movie.repository.ShowRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ShowService {
 
-    @Autowired
-    private ShowRepository showRepository;
-    @Autowired
-    private MovieRepository movieRepository;
-    @Autowired
-    private HallRepository hallRepository;
-    @Autowired
-    private HallService hallService;
+    private final ShowRepository showRepository;
+    private final MovieRepository movieRepository;
+    private final HallRepository hallRepository;
+    private final HallService hallService;
 
-    public List<Show> viewAllShows(){
+    public List<Show> getAllShows(){
         return showRepository.findAll();
     }
 
-    public Show viewShowById(Long id){
+    public Show getShowById(Long id){
         return showRepository.findById(id).orElseThrow();
     }
 

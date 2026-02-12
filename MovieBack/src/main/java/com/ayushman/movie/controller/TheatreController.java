@@ -4,8 +4,7 @@ import com.ayushman.movie.dto.request.TheatreRequest;
 import com.ayushman.movie.entity.Theatre;
 import com.ayushman.movie.service.TheatreService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,7 +14,8 @@ public class TheatreController {
     @Autowired
     private TheatreService theatreService;
 
-    public Theatre createTheatre(TheatreRequest request) {
+    @PostMapping("/create")
+    public Theatre createTheatre(@RequestBody TheatreRequest request) {
         return theatreService.createTheatre(request);
     }
 
@@ -23,11 +23,13 @@ public class TheatreController {
         return theatreService.getAllTheatres();
     }
 
-    public Theatre updateTheatre(long id, TheatreRequest request) {
+    @PutMapping("/update/{id}")
+    public Theatre updateTheatre(@PathVariable Long id, @RequestBody TheatreRequest request) {
         return theatreService.updateTheatre(id, request);
     }
 
-    public void deleteTheatre(long id) {
+    @DeleteMapping("/{id}")
+    public void deleteTheatre(@PathVariable long id) {
         theatreService.deleteTheatre(id);
     }
 

@@ -6,6 +6,7 @@ import com.ayushman.movie.entity.Theatre;
 import com.ayushman.movie.repository.HallRepository;
 import com.ayushman.movie.repository.TheatreRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +16,10 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class HallService {
-    @Autowired
-    private HallRepository hallRepository;
-    @Autowired
-    private TheatreRepository theatreRepository;
+    private final HallRepository hallRepository;
+    private final TheatreRepository theatreRepository;
 
     public List<Hall> getAllHalls() {
         return hallRepository.findAll();

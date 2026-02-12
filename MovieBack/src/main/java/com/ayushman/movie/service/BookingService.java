@@ -8,6 +8,7 @@ import com.ayushman.movie.repository.ShowRepository;
 import com.ayushman.movie.repository.TicketRepository;
 import com.ayushman.movie.repository.UserRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,23 +17,22 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class BookingService {
 
-    @Autowired
-    private TicketRepository ticketRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private ShowService showService;
-    @Autowired
-    private ShowRepository showRepository;
+    private final TicketRepository ticketRepository;
+    private final UserRepository userRepository;
+    private final ShowService showService;
+    private final ShowRepository showRepository;
 
     public List<Ticket> viewTickets(){
         return null;
     }
 
+    public Ticket viewTicketById(Long id){ return null; }
+
     public Ticket bookTicket(TicketRequest ticketRequest){
-        Show show = showService.viewShowById(ticketRequest.getShowId());
+        Show show = showService.getShowById(ticketRequest.getShowId());
         User user = userRepository.findById(ticketRequest.getUserId()).orElseThrow();
         long cost = show.getPrice() * ticketRequest.getSeatNumbers().size();
         for(Integer seatNum : ticketRequest.getSeatNumbers()) {
@@ -52,9 +52,9 @@ public class BookingService {
                 .show(show)
                 .build()
         );
-        List<Long> userTickets = user.getTicketIds();
-        userTickets.add(ticket.getId());
-        user.setTicketIds(userTickets);
+        List<Ticket> userTickets = user.getTickets();
+        userTickets.add(ticket);
+        user.setTickets(userTickets);
         userRepository.save(user);
         showRepository.save(show);
         return ticket;

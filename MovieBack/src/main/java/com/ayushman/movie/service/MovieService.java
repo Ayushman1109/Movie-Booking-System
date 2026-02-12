@@ -4,6 +4,7 @@ import com.ayushman.movie.dto.request.MovieRequest;
 import com.ayushman.movie.entity.Movie;
 import com.ayushman.movie.repository.MovieRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -12,14 +13,16 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class MovieService {
 
-    @Autowired
-    private MovieRepository movieRepository;
+    private final MovieRepository movieRepository;
 
     public List<Movie> getAllMovies(){
         return movieRepository.findAll();
     }
+
+    public Movie getMovieById(Long id){ return movieRepository.findById(id).orElseThrow(); }
 
     public Movie createNewMovie(MovieRequest movieRequest){
         Movie movie = Movie.builder()

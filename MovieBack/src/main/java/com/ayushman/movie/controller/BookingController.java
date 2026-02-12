@@ -21,12 +21,17 @@ public class BookingController {
         return bookingService.viewTickets();
     }
 
+    @GetMapping("/{id}")
+    public Ticket viewTicketById(@PathVariable Long id){
+        return bookingService.viewTicketById(id);
+    }
+
     @PostMapping("/book")
     public Ticket bookTicket(@RequestBody TicketRequest ticketRequest){
         return bookingService.bookTicket(ticketRequest);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void cancelTicket(@PathVariable Long id){
         bookingService.cancelTicket(id);
     }
