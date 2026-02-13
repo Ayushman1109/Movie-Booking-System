@@ -9,7 +9,7 @@ import java.util.List;
 public class MovieRequest {
     private String name;
     private String language;
-    private int durationInMinutes;
-    private int rating;
+    private Integer durationInMinutes;
+    private Integer rating;
     private List<Show> shows;
 }

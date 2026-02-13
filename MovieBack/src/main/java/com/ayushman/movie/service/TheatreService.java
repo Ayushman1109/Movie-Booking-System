@@ -5,9 +5,11 @@ import com.ayushman.movie.entity.Theatre;
 import com.ayushman.movie.repository.TheatreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +22,7 @@ public class TheatreService {
         Theatre theatre = Theatre.builder()
                 .name(request.getName())
                 .address(request.getAddress())
+                .halls(new ArrayList<>())
                 .build();
         return theatreRepository.save(theatre);
     }
@@ -37,5 +40,9 @@ public class TheatreService {
 
     public void deleteTheatre(long id) {
         theatreRepository.deleteById(id);
+    }
+
+    public Theatre getTheatreById(long id) {
+        return theatreRepository.findById(id).orElseThrow();
     }
 }

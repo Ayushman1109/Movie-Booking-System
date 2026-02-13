@@ -1,6 +1,7 @@
 package com.ayushman.movie.service;
 
 import com.ayushman.movie.dto.request.TicketRequest;
+import com.ayushman.movie.entity.Role;
 import com.ayushman.movie.entity.Show;
 import com.ayushman.movie.entity.Ticket;
 import com.ayushman.movie.entity.User;
@@ -9,7 +10,6 @@ import com.ayushman.movie.repository.TicketRepository;
 import com.ayushman.movie.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -25,15 +25,23 @@ public class BookingService {
     private final ShowService showService;
     private final ShowRepository showRepository;
 
-    public List<Ticket> viewTickets(){
-        return null;
+    public List<Ticket> viewTickets(User user){
+        if(user.getRole().equals(Role.ADMIN)){
+            return ticketRepository.findAll();
+        }
+        return ticketRepository.findByUserId(user.getId());
     }
 
-    public Ticket viewTicketById(Long id){ return null; }
+    public Ticket viewTicketById(Long id, User user){
+        Ticket ticket = ticketRepository.findById(id).orElseThrow();
+        if(!ticket.getUser().getId().equals(user.getId()) && !user.getRole().equals(Role.ADMIN)){
+            throw new IllegalArgumentException("You are not authorized to view this ticket");
+        }
+        return ticket;
+    }
 
-    public Ticket bookTicket(TicketRequest ticketRequest){
+    public Ticket bookTicket(TicketRequest ticketRequest, User user){
         Show show = showService.getShowById(ticketRequest.getShowId());
-        User user = userRepository.findById(ticketRequest.getUserId()).orElseThrow();
         long cost = show.getPrice() * ticketRequest.getSeatNumbers().size();
         for(Integer seatNum : ticketRequest.getSeatNumbers()) {
             boolean check = showService.checkSeatAvailability
@@ -60,7 +68,20 @@ public class BookingService {
         return ticket;
     }
 
-    public void cancelTicket(@PathVariable Long id){
+    public void cancelTicket(@PathVariable Long id, User user){
+        Ticket ticket = ticketRepository.findById(id).orElseThrow();
+        if(!ticket.getUser().getId().equals(user.getId()) && !user.getRole().equals(Role.ADMIN)){
+            throw new IllegalArgumentException("You are not authorized to cancel this ticket");
+        }
+        Show show = ticket.getShow();
+        for(Integer seatNum : ticket.getSeatNumbers()){
+            show.getAvailSeats().set(seatNum, 0);
+        }
+        List<Ticket> userTickets = user.getTickets();
+        userTickets.remove(ticket);
+        user.setTickets(userTickets);
+        userRepository.save(user);
+        showRepository.save(show);
         ticketRepository.deleteById(id);
     }
 

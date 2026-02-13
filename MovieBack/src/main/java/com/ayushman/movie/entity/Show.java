@@ -19,7 +19,7 @@ import java.util.List;
 public class Show {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "movie_id")
     private Movie movie;
@@ -28,10 +28,10 @@ public class Show {
     @JoinColumn(name = "hall_id")
     private Hall hall;
 
-    private long price;
+    private Long price;
     private LocalDateTime start;
     private LocalDateTime end;
-    private long seatsBooked = 0;
+    private Integer seatsBooked = 0;
     @ElementCollection
     private List<Integer> availSeats;
 }

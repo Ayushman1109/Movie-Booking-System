@@ -16,7 +16,7 @@ import java.util.List;
 public class Hall {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private Integer totalSeats;
 
     @ManyToOne(fetch = FetchType.LAZY)

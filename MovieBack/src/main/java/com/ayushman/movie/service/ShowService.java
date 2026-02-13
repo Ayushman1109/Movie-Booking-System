@@ -71,6 +71,19 @@ public class ShowService {
         return showRepository.save(show);
     }
 
+    public Show updateShowTiming(Long id, ShowRequest showRequest){
+        Show show = showRepository.findById(id).orElseThrow();
+        boolean timeAvailability = hallService.checkTimeAvailability(
+                show.getHall().getId(), showRequest.getStart(), showRequest.getEnd()
+        );
+        if(!timeAvailability){
+            throw new IllegalArgumentException("Hall is not available at the given time");
+        }
+        show.setStart(showRequest.getStart());
+        show.setEnd(showRequest.getEnd());
+        return showRepository.save(show);
+    }
+
     public void deleteShow(Long id){
         showRepository.deleteById(id);
     }

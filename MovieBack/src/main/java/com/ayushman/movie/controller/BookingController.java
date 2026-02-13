@@ -2,37 +2,46 @@ package com.ayushman.movie.controller;
 
 import com.ayushman.movie.dto.request.TicketRequest;
 import com.ayushman.movie.entity.Ticket;
+import com.ayushman.movie.entity.User;
 import com.ayushman.movie.service.BookingService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/tickets")
+@RequiredArgsConstructor
 public class BookingController {
-
-    @Autowired
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     @GetMapping()
-    public List<Ticket> viewTickets(){
-        return bookingService.viewTickets();
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<List<Ticket>> viewTickets(@AuthenticationPrincipal User user){
+        return ResponseEntity.ok(bookingService.viewTickets(user));
     }
 
     @GetMapping("/{id}")
-    public Ticket viewTicketById(@PathVariable Long id){
-        return bookingService.viewTicketById(id);
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Ticket> viewTicketById(@PathVariable Long id, @AuthenticationPrincipal User user){
+        return ResponseEntity.ok(bookingService.viewTicketById(id, user));
     }
 
     @PostMapping("/book")
-    public Ticket bookTicket(@RequestBody TicketRequest ticketRequest){
-        return bookingService.bookTicket(ticketRequest);
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<Ticket> bookTicket(@RequestBody TicketRequest ticketRequest,
+                                             @AuthenticationPrincipal User user){
+        return ResponseEntity.ok(bookingService.bookTicket(ticketRequest, user));
     }
 
     @DeleteMapping("/delete/{id}")
-    public void cancelTicket(@PathVariable Long id){
-        bookingService.cancelTicket(id);
+    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> cancelTicket(@PathVariable Long id, @AuthenticationPrincipal User user){
+        bookingService.cancelTicket(id, user);
+        return ResponseEntity.ok("Ticket cancelled successfully");
     }
 }

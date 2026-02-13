@@ -16,7 +16,7 @@ import java.util.List;
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "show_id")
     private Show show;
@@ -26,5 +26,5 @@ public class Ticket {
     private String movieName;
     @ElementCollection
     private List<Integer> seatNumbers;
-    private long cost;
+    private Long cost;
 }

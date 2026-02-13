@@ -14,7 +14,7 @@ public class ShowRequest {
 
     private Long movieId;
     private Long hallId;
-    private long price;
+    private Long price;
     private LocalDateTime start;
     private LocalDateTime end;
     private LocalTime endTime;
