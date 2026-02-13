@@ -42,6 +42,7 @@ public class BookingService {
 
     public Ticket bookTicket(TicketRequest ticketRequest, User user){
         Show show = showService.getShowById(ticketRequest.getShowId());
+        String movieName = show.getMovie().getName();
         long cost = show.getPrice() * ticketRequest.getSeatNumbers().size();
         for(Integer seatNum : ticketRequest.getSeatNumbers()) {
             boolean check = showService.checkSeatAvailability
@@ -53,7 +54,7 @@ public class BookingService {
         }
         Ticket ticket = ticketRepository.save(
                 Ticket.builder()
-                .movieName(ticketRequest.getMovieName())
+                .movieName(movieName)
                 .seatNumbers(ticketRequest.getSeatNumbers())
                 .cost(cost)
                 .user(user)

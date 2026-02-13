@@ -5,8 +5,6 @@ import com.ayushman.movie.entity.Theatre;
 import com.ayushman.movie.repository.TheatreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.jspecify.annotations.Nullable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

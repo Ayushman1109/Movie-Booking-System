@@ -4,8 +4,8 @@ import com.ayushman.movie.dto.request.TicketRequest;
 import com.ayushman.movie.entity.Ticket;
 import com.ayushman.movie.entity.User;
 import com.ayushman.movie.service.BookingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,7 +33,7 @@ public class BookingController {
 
     @PostMapping("/book")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Ticket> bookTicket(@RequestBody TicketRequest ticketRequest,
+    public ResponseEntity<Ticket> bookTicket(@Valid @RequestBody TicketRequest ticketRequest,
                                              @AuthenticationPrincipal User user){
         return ResponseEntity.ok(bookingService.bookTicket(ticketRequest, user));
     }

@@ -3,6 +3,7 @@ package com.ayushman.movie.controller;
 import com.ayushman.movie.dto.request.ShowRequest;
 import com.ayushman.movie.entity.Show;
 import com.ayushman.movie.service.ShowService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,13 +29,13 @@ public class ShowController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Show> createShow(@RequestBody ShowRequest showRequest){
+    public ResponseEntity<Show> createShow(@Valid @RequestBody ShowRequest showRequest){
         return ResponseEntity.ok(showService.createShow(showRequest));
     }
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Show> updateShowTiming(@PathVariable Long id, @RequestBody ShowRequest showRequest){
+    public ResponseEntity<Show> updateShowTiming(@PathVariable Long id, @Valid @RequestBody ShowRequest showRequest){
         return ResponseEntity.ok(showService.updateShowTiming(id, showRequest));
     }
 

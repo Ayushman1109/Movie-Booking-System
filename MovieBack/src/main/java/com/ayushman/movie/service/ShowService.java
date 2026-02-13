@@ -9,7 +9,6 @@ import com.ayushman.movie.repository.MovieRepository;
 import com.ayushman.movie.repository.ShowRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

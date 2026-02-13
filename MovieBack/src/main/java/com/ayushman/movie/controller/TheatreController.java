@@ -3,8 +3,8 @@ package com.ayushman.movie.controller;
 import com.ayushman.movie.dto.request.TheatreRequest;
 import com.ayushman.movie.entity.Theatre;
 import com.ayushman.movie.service.TheatreService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class TheatreController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Theatre> createTheatre(@RequestBody TheatreRequest request) {
+    public ResponseEntity<Theatre> createTheatre(@Valid @RequestBody TheatreRequest request) {
         return ResponseEntity.ok(theatreService.createTheatre(request));
     }
 
@@ -37,7 +37,7 @@ public class TheatreController {
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Theatre> updateTheatre(@PathVariable Long id, @RequestBody TheatreRequest request) {
+    public ResponseEntity<Theatre> updateTheatre(@PathVariable Long id, @Valid @RequestBody TheatreRequest request) {
         return ResponseEntity.ok(theatreService.updateTheatre(id, request));
     }
 

@@ -1,7 +1,7 @@
 package com.ayushman.movie.service;
 
-import com.ayushman.movie.dto.request.UserRequest; // Using your existing request DTO
-import com.ayushman.movie.dto.response.AuthResponse; // You need to create this
+import com.ayushman.movie.dto.request.UserRequest;
+import com.ayushman.movie.dto.response.AuthResponse;
 import com.ayushman.movie.entity.Role;
 import com.ayushman.movie.entity.User;
 import com.ayushman.movie.repository.UserRepository;
