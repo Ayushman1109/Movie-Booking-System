@@ -1,0 +1,86 @@
+#tickets-container {
+    max-width: 600px; 
+    margin: 0 auto; 
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.booking {
+    background-color: #ffffff;
+    border: 2px dashed #b0bec5;
+    border-radius: 10px;
+    padding: 20px 25px 20px 35px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.booking::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background-color: #007bff;
+}
+
+/* --- Ticket Text --- */
+.booking h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.5rem;
+    color: #222;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 10px;
+}
+
+.booking p {
+    margin: 8px 0;
+    font-size: 1.05rem;
+    color: #555;
+}
+
+.booking p strong {
+    color: #333;
+}
+
+/* --- Cancel Button --- */
+.booking button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 15px;
+    transition: background-color 0.2s ease;
+}
+
+.booking button:hover {
+    background-color: #c82333; 
+}
+
+#user-tickets-title {
+    text-align: center;
+    color: #222;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+    position: relative; 
+}
+
+#user-tickets-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: #007bff;
+    margin: 15px auto 0 auto;
+    border-radius: 2px;
+}

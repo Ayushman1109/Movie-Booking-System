@@ -1,0 +1,89 @@
+#book-container {
+    background-color: #ffffff;
+    max-width: 450px; 
+    margin: 0 auto; 
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+}
+
+#book-container h2 {
+    margin-top: 0;
+    color: #222;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+#book-container p {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 8px 0;
+}
+
+.book-poster {
+    width: 200px;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    margin: 15px auto;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    display: block;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-top: 25px;
+    margin-bottom: 10px;
+}
+
+#ticket-quantity {
+    width: 100%;
+    max-width: 200px;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 20px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+#ticket-quantity:focus {
+    border-color: #007bff;
+}
+
+#total-cost {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #28a745;
+    margin-bottom: 25px;
+    padding: 15px 0;
+    border-top: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
+}
+
+#confirm-booking {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: bold;
+    width: 100%;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+#confirm-booking:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+#confirm-booking:active {
+    transform: translateY(0);
+}
