@@ -1,9 +1,7 @@
 package com.ayushman.movie.config;
 
-import com.ayushman.movie.entity.Role;
-import com.ayushman.movie.entity.User;
-import com.ayushman.movie.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +14,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.ayushman.movie.entity.Role;
+import com.ayushman.movie.entity.User;
+import com.ayushman.movie.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
@@ -38,6 +42,7 @@ public class ApplicationConfig {
                         .email(adminEmail)
                         .password(passwordEncoder.encode(adminPassword))
                         .role(Role.ADMIN)
+                        .tickets(new ArrayList<>())
                         .build();
 
                 userRepository.save(admin);

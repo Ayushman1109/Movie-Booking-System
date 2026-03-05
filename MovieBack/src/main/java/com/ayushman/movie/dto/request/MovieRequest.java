@@ -1,14 +1,15 @@
 package com.ayushman.movie.dto.request;
 
+import java.util.List;
+
 import com.ayushman.movie.entity.Show;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @Builder
@@ -22,5 +23,6 @@ public class MovieRequest {
     @NotNull
     private Integer durationInMinutes;
     private Integer rating;
+    private String posterUrl;
     private List<Show> shows;
 }

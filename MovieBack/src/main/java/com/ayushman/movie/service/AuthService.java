@@ -1,17 +1,20 @@
 package com.ayushman.movie.service;
 
-import com.ayushman.movie.dto.request.UserRequest;
-import com.ayushman.movie.dto.response.AuthResponse;
-import com.ayushman.movie.entity.Role;
-import com.ayushman.movie.entity.User;
-import com.ayushman.movie.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import java.util.ArrayList;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import com.ayushman.movie.dto.request.LoginRequest;
+import com.ayushman.movie.dto.request.UserRequest;
+import com.ayushman.movie.dto.response.AuthResponse;
+import com.ayushman.movie.entity.Role;
+import com.ayushman.movie.entity.User;
+import com.ayushman.movie.repository.UserRepository;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +40,7 @@ public class AuthService {
         return AuthResponse.builder().token(jwtToken).build();
     }
 
-    public AuthResponse login(UserRequest request) {
+    public AuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUserName(),
