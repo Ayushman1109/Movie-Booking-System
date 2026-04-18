@@ -2,8 +2,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; 
+    min-height: 100vh;
     padding: 0px;
+    position: relative;
 }
 
 #container {
@@ -43,4 +44,12 @@ body {
 
 .option:active {
     transform: translateY(0);
+}
+
+.admin-option {
+    background-color: #6f42c1;
+}
+
+.admin-option:hover {
+    background-color: #563d7c;
 }

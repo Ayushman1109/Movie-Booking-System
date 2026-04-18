@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Booking System</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="auth-badge-placeholder"></div>
+    <div id="container">
+        <h1>Welcome to the Movie Booking System</h1>
+        <p>Please select an option below:</p>
+        <div class="options">
+            <a href="html/movies.html" class="option">View Movies</a>
+            <a href="html/tickets.html" class="option">View Tickets</a>
+            <a href="html/contact.html" class="option">Contact Us</a>
+            <a href="html/admin/index.html" class="option admin-option" id="admin-link" style="display:none;">Admin Panel</a>
+        </div>
+    </div>
+    <script>
+        const API_BASE = 'http://localhost:8080';
+
+        function getToken() { return localStorage.getItem('jwtToken'); }
+        function getCurrentUserName() { return localStorage.getItem('currentUserName'); }
+
+        function logout() {
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('currentUserName');
+            window.location.href = 'html/auth.html';
+        }
+
+        function isAdmin() {
+            const token = getToken();
+            if (!token) return false;
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                const role = payload.role || (Array.isArray(payload.authorities) && payload.authorities[0]);
+                return role === 'ADMIN' || role === 'ROLE_ADMIN';
+            } catch (e) { return false; }
+        }
+
+        function loadAuthBadge() {
+            const badge = document.getElementById('auth-badge-placeholder');
+            if (!badge) return;
+            const userName = getCurrentUserName();
+            if (userName) {
+                badge.innerHTML = `
+                    <div class="auth-badge">
+                        <span class="auth-badge-user">👤 ${userName}</span>
+                        <a href="#" onclick="logout(); return false;" class="auth-badge-link">Logout</a>
+                    </div>`;
+            } else {
+                badge.innerHTML = `
+                    <div class="auth-badge">
+                        <a href="html/auth.html" class="auth-badge-link">Login / Register</a>
+                    </div>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadAuthBadge();
+            if (isAdmin()) {
+                document.getElementById('admin-link').style.display = '';
+            }
+        });
+    </script>
+</body>
+</html>

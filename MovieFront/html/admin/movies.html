@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin – Movies</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+</head>
+<body>
+    <div id="auth-badge-placeholder"></div>
+    <div id="navbar-placeholder"></div>
+
+    <div class="admin-page">
+        <h1>Manage Movies</h1>
+        <p class="admin-subtitle">Create, update and delete movies</p>
+
+        <!-- Alert -->
+        <div id="alert" class="alert"></div>
+
+        <!-- Create Movie -->
+        <div class="admin-section">
+            <h2>Create New Movie</h2>
+            <form class="admin-form" id="create-form" onsubmit="createMovie(event)">
+                <div class="form-group">
+                    <label for="name">Movie Name *</label>
+                    <input type="text" id="name" placeholder="e.g. Inception" required />
+                </div>
+                <div class="form-group">
+                    <label for="language">Language *</label>
+                    <input type="text" id="language" placeholder="e.g. English" required />
+                </div>
+                <div class="form-group">
+                    <label for="duration">Duration (minutes) *</label>
+                    <input type="number" id="duration" placeholder="e.g. 148" min="1" required />
+                </div>
+                <div class="form-group">
+                    <label for="rating">Rating (1-10)</label>
+                    <input type="number" id="rating" placeholder="e.g. 8" min="1" max="10" />
+                </div>
+                <div class="form-group full-width">
+                    <label for="posterUrl">Poster URL</label>
+                    <input type="url" id="posterUrl" placeholder="https://example.com/poster.jpg" />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Create Movie</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Movie List -->
+        <div class="admin-section">
+            <h2>All Movies</h2>
+            <div id="movies-list">
+                <div class="empty-state">Loading movies…</div>
+            </div>
+
+            <!-- Edit Panel -->
+            <div class="edit-panel" id="edit-panel">
+                <h3>Edit Movie</h3>
+                <input type="hidden" id="edit-id" />
+                <form class="admin-form" onsubmit="updateMovie(event)">
+                    <div class="form-group">
+                        <label for="edit-name">Movie Name *</label>
+                        <input type="text" id="edit-name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-language">Language *</label>
+                        <input type="text" id="edit-language" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-duration">Duration (minutes) *</label>
+                        <input type="number" id="edit-duration" min="1" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-rating">Rating (1-10)</label>
+                        <input type="number" id="edit-rating" min="1" max="10" />
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="edit-posterUrl">Poster URL</label>
+                        <input type="url" id="edit-posterUrl" />
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeEditPanel()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/admin-common.js"></script>
+    <script src="../../js/admin-movies.js"></script>
+</body>
+</html>

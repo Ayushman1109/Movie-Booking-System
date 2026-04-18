@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin – Shows</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+</head>
+<body>
+    <div id="auth-badge-placeholder"></div>
+    <div id="navbar-placeholder"></div>
+
+    <div class="admin-page">
+        <h1>Manage Shows</h1>
+        <p class="admin-subtitle">Schedule, update and delete shows</p>
+
+        <!-- Alert -->
+        <div id="alert" class="alert"></div>
+
+        <!-- Create Show -->
+        <div class="admin-section">
+            <h2>Create New Show</h2>
+            <form class="admin-form" id="create-form" onsubmit="createShow(event)">
+                <div class="form-group">
+                    <label for="movieId">Movie *</label>
+                    <select id="movieId" required>
+                        <option value="">— select movie —</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="hallId">Hall *</label>
+                    <select id="hallId" required>
+                        <option value="">— select hall —</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Price (₹) *</label>
+                    <input type="number" id="price" placeholder="e.g. 250" min="1" required />
+                </div>
+                <div class="form-group">
+                    <label for="seatsBooked">Seats Booked</label>
+                    <input type="number" id="seatsBooked" placeholder="0" min="0" value="0" />
+                </div>
+                <div class="form-group">
+                    <label for="start">Start Date &amp; Time *</label>
+                    <input type="datetime-local" id="start" required />
+                </div>
+                <div class="form-group">
+                    <label for="end">End Date &amp; Time *</label>
+                    <input type="datetime-local" id="end" required />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Create Show</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Show List -->
+        <div class="admin-section">
+            <h2>All Shows</h2>
+            <div id="shows-list">
+                <div class="empty-state">Loading shows…</div>
+            </div>
+
+            <!-- Edit Panel -->
+            <div class="edit-panel" id="edit-panel">
+                <h3>Edit Show</h3>
+                <input type="hidden" id="edit-id" />
+                <form class="admin-form" onsubmit="updateShow(event)">
+                    <div class="form-group">
+                        <label for="edit-movieId">Movie *</label>
+                        <select id="edit-movieId" required>
+                            <option value="">— select movie —</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-hallId">Hall *</label>
+                        <select id="edit-hallId" required>
+                            <option value="">— select hall —</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-price">Price (₹) *</label>
+                        <input type="number" id="edit-price" min="1" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-seatsBooked">Seats Booked</label>
+                        <input type="number" id="edit-seatsBooked" min="0" />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-start">Start Date &amp; Time *</label>
+                        <input type="datetime-local" id="edit-start" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-end">End Date &amp; Time *</label>
+                        <input type="datetime-local" id="edit-end" required />
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeEditPanel()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/admin-common.js"></script>
+    <script src="../../js/admin-shows.js"></script>
+</body>
+</html>

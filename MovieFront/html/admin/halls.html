@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin – Halls</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+</head>
+<body>
+    <div id="auth-badge-placeholder"></div>
+    <div id="navbar-placeholder"></div>
+
+    <div class="admin-page">
+        <h1>Manage Halls</h1>
+        <p class="admin-subtitle">Add, update and delete halls within theatres</p>
+
+        <!-- Alert -->
+        <div id="alert" class="alert"></div>
+
+        <!-- Add Single Hall -->
+        <div class="admin-section">
+            <h2>Add Hall to Theatre</h2>
+            <form class="admin-form" id="create-form" onsubmit="addHall(event)">
+                <div class="form-group">
+                    <label for="theatreId">Theatre *</label>
+                    <select id="theatreId" required>
+                        <option value="">— select theatre —</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="totalSeats">Total Seats *</label>
+                    <input type="number" id="totalSeats" placeholder="e.g. 150" min="1" required />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Add Hall</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Add Bulk Halls -->
+        <div class="admin-section">
+            <h2>Add Multiple Halls (Bulk)</h2>
+            <form class="admin-form" id="bulk-form" onsubmit="addBulkHalls(event)">
+                <div class="form-group">
+                    <label for="bulkTheatreId">Theatre *</label>
+                    <select id="bulkTheatreId" required>
+                        <option value="">— select theatre —</option>
+                    </select>
+                </div>
+                <div class="form-group full-width">
+                    <label for="bulkSeats">Seats per Hall (comma-separated) *</label>
+                    <input type="text" id="bulkSeats" placeholder="e.g. 100, 150, 200" required />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Add Halls</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Hall List -->
+        <div class="admin-section">
+            <h2>All Halls</h2>
+            <div id="halls-list">
+                <div class="empty-state">Loading halls…</div>
+            </div>
+
+            <!-- Edit Panel -->
+            <div class="edit-panel" id="edit-panel">
+                <h3>Edit Hall</h3>
+                <input type="hidden" id="edit-id" />
+                <form class="admin-form single-col" onsubmit="updateHall(event)">
+                    <div class="form-group">
+                        <label for="edit-totalSeats">Total Seats *</label>
+                        <input type="number" id="edit-totalSeats" min="1" required />
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeEditPanel()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/admin-common.js"></script>
+    <script src="../../js/admin-halls.js"></script>
+</body>
+</html>

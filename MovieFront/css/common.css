@@ -72,3 +72,45 @@ p {
     background-color: #007bff;
     color: #ffffff;
 }
+
+.nav-user {
+    color: #007bff;
+    font-weight: bold;
+    font-size: 1rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background-color: #e8f0fe;
+}
+
+.auth-badge {
+    position: fixed;
+    top: 18px;
+    right: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #eaeaea;
+    border-radius: 24px;
+    padding: 6px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    z-index: 100;
+}
+
+.auth-badge-user {
+    font-weight: bold;
+    color: #007bff;
+    font-size: 0.92rem;
+}
+
+.auth-badge-link {
+    text-decoration: none;
+    color: #555;
+    font-weight: bold;
+    font-size: 0.92rem;
+    transition: color 0.2s;
+}
+
+.auth-badge-link:hover {
+    color: #007bff;
+}

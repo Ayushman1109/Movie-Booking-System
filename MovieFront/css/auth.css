@@ -1,0 +1,231 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    background-color: #f0f4f8;
+}
+
+#auth-container {
+    background-color: #ffffff;
+    padding: 40px 40px 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 440px;
+}
+
+/* Header */
+.auth-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+
+.auth-header h1 {
+    font-size: 1.6rem;
+    color: #222;
+    margin-bottom: 6px;
+}
+
+.auth-header p {
+    font-size: 0.95rem;
+    color: #777;
+    margin: 0;
+}
+
+/* Tabs */
+.auth-tabs {
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 28px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 12px;
+    background-color: #f5f5f5;
+    color: #555;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.tab-btn:first-child {
+    border-right: 1px solid #e0e0e0;
+}
+
+.tab-btn.active {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.tab-btn:hover:not(.active) {
+    background-color: #e8f0fe;
+    color: #007bff;
+}
+
+/* Forms */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.auth-form.hidden {
+    display: none;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #444;
+}
+
+.form-group input {
+    padding: 11px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.12);
+}
+
+.form-group input.input-error {
+    border-color: #e53935;
+}
+
+/* Password toggle */
+.password-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.password-wrapper:focus-within {
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.12);
+}
+
+.password-wrapper.input-error {
+    border-color: #e53935;
+}
+
+.password-wrapper input {
+    flex: 1;
+    border: none;
+    border-radius: 0;
+    padding: 11px 14px;
+    font-size: 0.95rem;
+    color: #333;
+    outline: none;
+    box-shadow: none !important;
+}
+
+.toggle-password {
+    background: none;
+    border: none;
+    padding: 0 14px;
+    color: #007bff;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.toggle-password:hover {
+    color: #0056b3;
+}
+
+/* Error / Success messages */
+.error-msg {
+    font-size: 0.8rem;
+    color: #e53935;
+    min-height: 14px;
+}
+
+.form-error {
+    background-color: #fdecea;
+    color: #c62828;
+    border: 1px solid #f5c6cb;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+.form-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    text-align: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Submit button */
+.auth-btn {
+    width: 100%;
+    padding: 13px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    margin-top: 4px;
+}
+
+.auth-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+}
+
+.auth-btn:active {
+    transform: translateY(0);
+}
+
+/* Footer link */
+.form-footer {
+    text-align: center;
+    font-size: 0.88rem;
+    color: #666;
+    margin: 4px 0 0 0;
+}
+
+.form-footer a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}

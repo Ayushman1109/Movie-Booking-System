@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin – Theatres</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+</head>
+<body>
+    <div id="auth-badge-placeholder"></div>
+    <div id="navbar-placeholder"></div>
+
+    <div class="admin-page">
+        <h1>Manage Theatres</h1>
+        <p class="admin-subtitle">Create, update and delete theatres</p>
+
+        <!-- Alert -->
+        <div id="alert" class="alert"></div>
+
+        <!-- Create Theatre -->
+        <div class="admin-section">
+            <h2>Create New Theatre</h2>
+            <form class="admin-form" id="create-form" onsubmit="createTheatre(event)">
+                <div class="form-group">
+                    <label for="name">Theatre Name *</label>
+                    <input type="text" id="name" placeholder="e.g. PVR Cinemas – CP" required />
+                </div>
+                <div class="form-group">
+                    <label for="address">Address *</label>
+                    <input type="text" id="address" placeholder="e.g. Connaught Place, New Delhi" required />
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success">Create Theatre</button>
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Theatre List -->
+        <div class="admin-section">
+            <h2>All Theatres</h2>
+            <div id="theatres-list">
+                <div class="empty-state">Loading theatres…</div>
+            </div>
+
+            <!-- Edit Panel -->
+            <div class="edit-panel" id="edit-panel">
+                <h3>Edit Theatre</h3>
+                <input type="hidden" id="edit-id" />
+                <form class="admin-form single-col" onsubmit="updateTheatre(event)">
+                    <div class="form-group">
+                        <label for="edit-name">Theatre Name *</label>
+                        <input type="text" id="edit-name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-address">Address *</label>
+                        <input type="text" id="edit-address" required />
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeEditPanel()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/admin-common.js"></script>
+    <script src="../../js/admin-theatres.js"></script>
+</body>
+</html>

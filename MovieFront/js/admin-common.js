@@ -11,8 +11,7 @@ function getCurrentUserName() {
 function logout() {
     localStorage.removeItem('jwtToken');
     localStorage.removeItem('currentUserName');
-    localStorage.removeItem('currentUserRole');
-    window.location.href = 'auth.html';
+    window.location.href = '../auth.html';
 }
 
 function isAdmin() {
@@ -26,26 +25,51 @@ function isAdmin() {
     } catch (e) { return false; }
 }
 
-function loadNavbar() {
-    const adminLink = isAdmin()
-        ? `<li><a href="../html/admin/index.html">Admin</a></li>`
-        : '';
+function requireAdmin() {
+    if (!getToken()) {
+        window.location.href = '../auth.html';
+        return false;
+    }
+    if (!isAdmin()) {
+        alert('Access denied. Admin privileges required.');
+        window.location.href = '../../index.html';
+        return false;
+    }
+    return true;
+}
+
+function authHeaders() {
+    return {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getToken()}`
+    };
+}
+
+function showAlert(containerId, message, type = 'success') {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    el.textContent = message;
+    el.className = `alert alert-${type} show`;
+    setTimeout(() => {
+        el.classList.remove('show');
+    }, 4000);
+}
+
+function loadAdminNavbar() {
     const navbarHTML = `
         <nav class="navbar">
             <ul class="nav-links">
-                <li><a href="../index.html">Home</a></li>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="index.html">Admin</a></li>
                 <li><a href="movies.html">Movies</a></li>
-                <li><a href="tickets.html">Bookings</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-                ${adminLink}
+                <li><a href="shows.html">Shows</a></li>
+                <li><a href="theatres.html">Theatres</a></li>
+                <li><a href="halls.html">Halls</a></li>
             </ul>
         </nav>
     `;
-
     const placeholder = document.getElementById('navbar-placeholder');
-    if (placeholder) {
-        placeholder.innerHTML = navbarHTML;
-    }
+    if (placeholder) placeholder.innerHTML = navbarHTML;
 }
 
 function loadAuthBadge() {
@@ -62,12 +86,13 @@ function loadAuthBadge() {
     } else {
         badge.innerHTML = `
             <div class="auth-badge">
-                <a href="auth.html" class="auth-badge-link">Login / Register</a>
+                <a href="../auth.html" class="auth-badge-link">Login / Register</a>
             </div>`;
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    loadNavbar();
+    requireAdmin();
+    loadAdminNavbar();
     loadAuthBadge();
 });

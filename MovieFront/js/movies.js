@@ -1,68 +1,61 @@
-const availableMovies = [
-    {
-        name: 'The Dark Knight',
-        language: 'English',
-        rating: '9.0',
-        poster: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQkUywIUXDjHSQJIaNHYVs08osgBpF5Ot-xmB_omyEZeeRP9Xug',
-        cost: 20
-    },
-    {
-        name: 'Andhadhun',
-        language: 'Hindi',
-        rating: '8.2',
-        poster: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcS3o9KABKNm4eOD8-ej_c1uNaAh7bKXOZtHow2Wx_s0YUg6urGw',
-        cost: 12
-    },
-    {
-        name: 'Inception',
-        language: 'English',
-        rating: '8.8',
-        poster: 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQovCe0H45fWwAtV31ajOdXRPTxSsMQgPIQ3lcZX_mAW0jXV3kH',
-        cost: 35
-    },
-    {
-        name: '3 Idiots',
-        language: 'Hindi',
-        rating: '8.4',
-        poster: 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQV7sONOx4fl1xq9CbdWUmcTamWwzrPMzqKhZOGHh-V0zHpn0Ly',
-        cost: 15
-    },
-    {
-        name: 'Interstellar',
-        language: 'English',
-        rating: '8.6',
-        poster: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9oW0XQlu1lo1G_49M-YwGzKR6rUg-CtflZj07HfbT8d2GwKWg',
-        cost: 25
-    },
-    {
-        name:'Don',
-        language: 'Hindi',
-        rating: '7.8',
-        poster: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8KDzNOeKG_Rdsy4f_P_k04aIhzKAqQE5cNLPUaFC23UP_nv8N',
-        cost: 10
-    }
-];
-
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const moviesContainer = document.getElementById('movies-container');
-    if (moviesContainer) {
-        renderMovies(availableMovies);
+    if (!moviesContainer) return;
+
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+        moviesContainer.innerHTML = '<p>Please <a href="auth.html">login</a> to view movies.</p>';
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_BASE}/show`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.status === 401 || response.status === 403) {
+            localStorage.removeItem('jwtToken');
+            localStorage.removeItem('currentUserName');
+            window.location.href = 'auth.html';
+            return;
+        }
+
+        if (!response.ok) throw new Error('Failed to fetch shows');
+        const shows = await response.json();
+        renderMoviesFromShows(shows);
+    } catch (err) {
+        moviesContainer.innerHTML = `<p>Error loading movies: ${err.message}</p>`;
     }
 });
 
-function renderMovies(movies) {
+function renderMoviesFromShows(shows) {
     const moviesContainer = document.getElementById('movies-container');
     moviesContainer.innerHTML = '';
-    
-    movies.forEach((movie, index) => {
+
+    if (!shows.length) {
+        moviesContainer.innerHTML = '<p>No movies available at the moment.</p>';
+        return;
+    }
+
+    // Group shows by movie id, keeping one representative show per movie
+    const movieMap = new Map();
+    shows.forEach(show => {
+        if (show.movie && !movieMap.has(show.movie.id)) {
+            movieMap.set(show.movie.id, show.movie);
+        }
+    });
+
+    movieMap.forEach(movie => {
+        const posterHTML = movie.posterUrl
+            ? `<img src="${movie.posterUrl}" alt="${movie.name} poster" class="movie-poster">`
+            : '';
         const movieElement = document.createElement('div');
         movieElement.classList.add('movie');
         movieElement.innerHTML = `
+            ${posterHTML}
             <h3>${movie.name}</h3>
-            <img src="${movie.poster}" alt="${movie.name} poster" class="movie-poster">
-            <p> ${movie.language} &middot; ${movie.rating}</p>
-            <p>Cost: $${movie.cost}</p>
-            <button class="book-button" data-index="${index}">Book Now</button>
+            <p>${movie.language} &middot; Rating: ${movie.rating}/10 &middot; ${movie.durationInMinutes} min</p>
+            <button class="book-button" data-id="${movie.id}" data-name="${encodeURIComponent(movie.name)}">Book Now</button>
         `;
         moviesContainer.appendChild(movieElement);
     });
@@ -73,8 +66,8 @@ function renderMovies(movies) {
 }
 
 function book(event) {
-    const movieIndex = event.target.getAttribute('data-index');
-    const selectedMovie = availableMovies[movieIndex];
-    localStorage.setItem('selectedMovie', JSON.stringify(selectedMovie));
+    const movieId   = event.target.getAttribute('data-id');
+    const movieName = decodeURIComponent(event.target.getAttribute('data-name'));
+    localStorage.setItem('selectedMovie', JSON.stringify({ id: movieId, name: movieName }));
     window.location.href = 'book.html';
 }
