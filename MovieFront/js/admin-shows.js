@@ -107,9 +107,8 @@ async function createShow(event) {
         movieId: parseInt(document.getElementById('movieId').value),
         hallId: parseInt(document.getElementById('hallId').value),
         price: parseInt(document.getElementById('price').value),
-        seatsBooked: parseInt(document.getElementById('seatsBooked').value) || 0,
         start: toISOFormatted(document.getElementById('start').value),
-        end: toISOFormatted(document.getElementById('end').value)
+        intervalTime: parseInt(document.getElementById('intervalTime').value)
     };
 
     try {
@@ -136,9 +135,8 @@ function openEditPanel(id, show) {
     document.getElementById('edit-movieId').value = show.movie ? show.movie.id : (show.movieId ?? '');
     document.getElementById('edit-hallId').value = show.hall ? show.hall.id : (show.hallId ?? '');
     document.getElementById('edit-price').value = show.price;
-    document.getElementById('edit-seatsBooked').value = show.seatsBooked ?? 0;
     document.getElementById('edit-start').value = toLocalDatetimeValue(show.start);
-    document.getElementById('edit-end').value = toLocalDatetimeValue(show.end);
+    document.getElementById('edit-intervalTime').value = show.intervalTime ?? 15;
 
     const panel = document.getElementById('edit-panel');
     panel.classList.add('show');
@@ -156,9 +154,8 @@ async function updateShow(event) {
         movieId: parseInt(document.getElementById('edit-movieId').value),
         hallId: parseInt(document.getElementById('edit-hallId').value),
         price: parseInt(document.getElementById('edit-price').value),
-        seatsBooked: parseInt(document.getElementById('edit-seatsBooked').value) || 0,
         start: toISOFormatted(document.getElementById('edit-start').value),
-        end: toISOFormatted(document.getElementById('edit-end').value)
+        intervalTime: parseInt(document.getElementById('edit-intervalTime').value)
     };
 
     try {

@@ -24,7 +24,7 @@ public class Movie {
     private String name;
     private String language;
     private Integer durationInMinutes;
-    private Integer rating;
+    private Double rating;
     private String posterUrl;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

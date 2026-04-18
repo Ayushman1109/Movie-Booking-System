@@ -22,7 +22,7 @@ public class MovieRequest {
     private String language;
     @NotNull
     private Integer durationInMinutes;
-    private Integer rating;
+    private Double rating;
     private String posterUrl;
     private List<Show> shows;
 }

@@ -61,7 +61,7 @@ async function createMovie(event) {
         name: document.getElementById('name').value.trim(),
         language: document.getElementById('language').value.trim(),
         durationInMinutes: parseInt(document.getElementById('duration').value),
-        rating: document.getElementById('rating').value ? parseInt(document.getElementById('rating').value) : null,
+        rating: document.getElementById('rating').value ? parseFloat(document.getElementById('rating').value) : null,
         posterUrl: document.getElementById('posterUrl').value.trim() || null
     };
 
@@ -108,7 +108,7 @@ async function updateMovie(event) {
         name: document.getElementById('edit-name').value.trim(),
         language: document.getElementById('edit-language').value.trim(),
         durationInMinutes: parseInt(document.getElementById('edit-duration').value),
-        rating: document.getElementById('edit-rating').value ? parseInt(document.getElementById('edit-rating').value) : null,
+        rating: document.getElementById('edit-rating').value ? parseFloat(document.getElementById('edit-rating').value) : null,
         posterUrl: document.getElementById('edit-posterUrl').value.trim() || null
     };
 

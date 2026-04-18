@@ -39,16 +39,12 @@
                     <input type="number" id="price" placeholder="e.g. 250" min="1" required />
                 </div>
                 <div class="form-group">
-                    <label for="seatsBooked">Seats Booked</label>
-                    <input type="number" id="seatsBooked" placeholder="0" min="0" value="0" />
-                </div>
-                <div class="form-group">
                     <label for="start">Start Date &amp; Time *</label>
                     <input type="datetime-local" id="start" required />
                 </div>
                 <div class="form-group">
-                    <label for="end">End Date &amp; Time *</label>
-                    <input type="datetime-local" id="end" required />
+                    <label for="intervalTime">Interval Time (mins) *</label>
+                    <input type="number" id="intervalTime" placeholder="e.g. 15" min="0" required />
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn btn-success">Create Show</button>
@@ -86,16 +82,12 @@
                         <input type="number" id="edit-price" min="1" required />
                     </div>
                     <div class="form-group">
-                        <label for="edit-seatsBooked">Seats Booked</label>
-                        <input type="number" id="edit-seatsBooked" min="0" />
-                    </div>
-                    <div class="form-group">
                         <label for="edit-start">Start Date &amp; Time *</label>
                         <input type="datetime-local" id="edit-start" required />
                     </div>
                     <div class="form-group">
-                        <label for="edit-end">End Date &amp; Time *</label>
-                        <input type="datetime-local" id="edit-end" required />
+                        <label for="edit-intervalTime">Interval Time (mins) *</label>
+                        <input type="number" id="edit-intervalTime" min="0" required />
                     </div>
                     <div class="form-actions">
                         <button type="submit" class="btn btn-primary">Save Changes</button>

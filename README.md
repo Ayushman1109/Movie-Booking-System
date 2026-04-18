@@ -32,7 +32,7 @@ Create a New File called env.properties in `Movie Booking System\MovieBack\src\m
 
 | Variable Name | Description | Example |
 | :--- | :--- | :--- |
-| `JWT_SECRET_KEY` | A 256-bit Base64 encoded secret key for signing tokens | `404E6352...` |
+| `SECRET_KEY` | A 256-bit Base64 encoded secret key for signing tokens | `404E6352...` |
 | `DB_URL` | URL to your database connection | `jdbc:postgresql://localhost:5432/movie` |
 | `DB_USER` | Database username | `postgres` |
 | `DB_PASSWORD` | Database password | `samplepass` |
@@ -47,11 +47,16 @@ Create a New File called env.properties in `Movie Booking System\MovieBack\src\m
    ```bash
    git clone https://github.com/yourusername/movie-booking-system.git
    cd movie-booking-system
+   ```
 2. **Setup the env.properties file:**
-   * Follow the instructions in the environment variables heading to create the file.
+   * Navigate to `MovieBack/src/main/resources` and follow the instructions in the environment variables heading to create the file.
 3. **Setup the Database:**
-   * Create a PostgreSQL database with the same name as in the DB_URL in the env.properties file.
-4. **Run the Application:**
-   * Open the project in IntelliJ IDEA/Eclipse/VS Code.
+   * Create a PostgreSQL database with the same name as in the `DB_URL` in the `env.properties` file.
+4. **Run the Backend Application:**
+   * Open the backend project (`MovieBack`) in your IDE.
    * Navigate to `src/main/java/com/ayushman/movie/MovieBookingSystemApplication.java`.
-   * Click the green **Run** button next to the `main` method.
+   * Click the green **Run** button next to the `main` method, or run `mvn spring-boot:run`.
+5. **Run the Frontend Application:**
+   * Open the frontend project (`MovieFront`) in a web browser or using a Live Server extension in VS Code.
+   * Start by opening `index.html`.
+   * To access the admin panel, use the `ADMIN_USERNAME` and `ADMIN_PASSWORD` you configured in your backend `env.properties` file to log in.
