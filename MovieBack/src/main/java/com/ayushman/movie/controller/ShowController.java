@@ -30,7 +30,7 @@ public class ShowController {
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Show> createShow(@Valid @RequestBody ShowRequest showRequest){
-        return ResponseEntity.ok(showService.createShow(showRequest));
+        return ResponseEntity.status(201).body(showService.createShow(showRequest));
     }
 
     @PutMapping("/update/{id}")

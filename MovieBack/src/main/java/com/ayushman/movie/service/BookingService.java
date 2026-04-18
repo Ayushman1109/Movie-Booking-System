@@ -65,7 +65,7 @@ public class BookingService {
         return ticket;
     }
 
-    public void cancelTicket(@PathVariable Long id, User user){
+    public void cancelTicket(Long id, User user){
         Ticket ticket = ticketRepository.findById(id).orElseThrow();
         if(!ticket.getUser().getId().equals(user.getId()) && !user.getRole().equals(Role.ADMIN)){
             throw new IllegalArgumentException("You are not authorized to cancel this ticket");

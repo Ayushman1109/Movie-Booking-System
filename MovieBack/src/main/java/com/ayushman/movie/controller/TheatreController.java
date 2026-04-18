@@ -20,7 +20,7 @@ public class TheatreController {
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Theatre> createTheatre(@Valid @RequestBody TheatreRequest request) {
-        return ResponseEntity.ok(theatreService.createTheatre(request));
+        return ResponseEntity.status(201).body(theatreService.createTheatre(request));
     }
 
     @GetMapping

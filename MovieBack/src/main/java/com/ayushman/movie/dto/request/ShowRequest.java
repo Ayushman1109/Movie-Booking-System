@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Data
@@ -23,8 +24,7 @@ public class ShowRequest {
     @NotNull
     private LocalDateTime start;
     @NotNull
-    private LocalDateTime end;
-    private Integer seatsBooked;
+    private Integer intervalTime;
     private List<Integer> availSeats;
 
 }

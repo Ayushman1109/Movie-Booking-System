@@ -35,7 +35,7 @@ public class BookingController {
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<Ticket> bookTicket(@Valid @RequestBody TicketRequest ticketRequest,
                                              @AuthenticationPrincipal User user){
-        return ResponseEntity.ok(bookingService.bookTicket(ticketRequest, user));
+        return ResponseEntity.status(201).body(bookingService.bookTicket(ticketRequest, user));
     }
 
     @DeleteMapping("/delete/{id}")

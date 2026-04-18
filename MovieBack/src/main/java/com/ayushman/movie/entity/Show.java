@@ -19,7 +19,12 @@ import java.util.List;
 public class Show {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "show_id")
     private Long id;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
     @ManyToOne
     @JoinColumn(name = "movie_id")
     @JsonIgnoreProperties("shows")
@@ -30,12 +35,12 @@ public class Show {
     @JsonIgnoreProperties({"shows", "hall"})
     private Hall hall;
 
+    @Column(name = "price")
     private Long price;
     @Column(name = "start_time")
     private LocalDateTime start;
     @Column(name = "end_time")
     private LocalDateTime end;
-    private Integer seatsBooked = 0;
     @ElementCollection
     private List<Integer> availSeats;
 }

@@ -32,7 +32,7 @@ public class MovieController {
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Movie> createNewMovie(@Valid @RequestBody MovieRequest movieRequest){
-        return ResponseEntity.ok(movieService.createNewMovie(movieRequest));
+        return ResponseEntity.status(201).body(movieService.createNewMovie(movieRequest));
     }
 
     @PutMapping("/update/{id}")

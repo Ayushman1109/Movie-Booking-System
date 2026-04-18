@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,8 +47,9 @@ public class ShowService {
     public Show createShow(ShowRequest showRequest){
         Movie movie = movieRepository.findById(showRequest.getMovieId()).orElseThrow();
         Hall hall = hallRepository.findById(showRequest.getHallId()).orElseThrow();
+        LocalDateTime end = showRequest.getStart().plusMinutes(movie.getDurationInMinutes() + showRequest.getIntervalTime());
         boolean timeAvailability = hallService.checkTimeAvailability(
-                showRequest.getHallId(), showRequest.getStart(), showRequest.getEnd()
+                showRequest.getHallId(), showRequest.getStart(), end
         );
         if(!timeAvailability){
             throw new IllegalArgumentException("Hall is not available at the given time");
@@ -62,8 +64,7 @@ public class ShowService {
                 .hall(hall)
                 .price(showRequest.getPrice())
                 .start(showRequest.getStart())
-                .end(showRequest.getEnd())
-                .seatsBooked(0)
+                .end(end)
                 .availSeats(availSeats)
                 .build();
 
@@ -72,14 +73,16 @@ public class ShowService {
 
     public Show updateShowTiming(Long id, ShowRequest showRequest){
         Show show = showRepository.findById(id).orElseThrow();
+        Movie movie = movieRepository.findById(showRequest.getMovieId()).orElseThrow();
+        LocalDateTime end = showRequest.getStart().plusMinutes(movie.getDurationInMinutes() + showRequest.getIntervalTime());
         boolean timeAvailability = hallService.checkTimeAvailability(
-                show.getHall().getId(), showRequest.getStart(), showRequest.getEnd()
+                show.getHall().getId(), showRequest.getStart(), end
         );
         if(!timeAvailability){
             throw new IllegalArgumentException("Hall is not available at the given time");
         }
         show.setStart(showRequest.getStart());
-        show.setEnd(showRequest.getEnd());
+        show.setEnd(end);
         return showRepository.save(show);
     }
 

@@ -43,7 +43,7 @@ public class HallController {
     public ResponseEntity<Hall> addHallToTheatre(
             @PathVariable long theatreId,
             @RequestParam Integer totalSeats) {
-        return ResponseEntity.ok(hallService.addHallToTheatre(theatreId, totalSeats));
+        return ResponseEntity.status(201).body(hallService.addHallToTheatre(theatreId, totalSeats));
     }
 
     @PostMapping("/createBulk/{theatreId}")
@@ -51,7 +51,7 @@ public class HallController {
     public ResponseEntity<List<Hall>> addHallsToTheatre(
             @PathVariable long theatreId,
             @RequestBody List<Integer> totalSeatsList) {
-        return ResponseEntity.ok(hallService.addHallsToTheatre(theatreId, totalSeatsList));
+        return ResponseEntity.status(201).body(hallService.addHallsToTheatre(theatreId, totalSeatsList));
     }
 
     @PutMapping("/update/{id}")
