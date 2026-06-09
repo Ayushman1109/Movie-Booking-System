@@ -1,0 +1,29 @@
+# Environment variables
+env.properties
+.env
+.env.*
+
+# Build artifacts and directories
+target/
+build/
+dist/
+out/
+node_modules/
+
+# Compiled Java class files and archives
+*.class
+*.jar
+*.war
+*.ear
+*.log
+
+# IDEs and OS files
+.idea/
+.vscode/
+.gemini/
+.antigravity/
+*.iml
+*.iws
+*.ipr
+.DS_Store
+Thumbs.db
