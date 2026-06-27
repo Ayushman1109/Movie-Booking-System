@@ -12,6 +12,9 @@ import com.ayushman.movie.entity.Role;
 import com.ayushman.movie.entity.Show;
 import com.ayushman.movie.entity.Ticket;
 import com.ayushman.movie.entity.User;
+import com.ayushman.movie.exception.InvalidRequestException;
+import com.ayushman.movie.exception.ResourceNotFoundException;
+import com.ayushman.movie.exception.UnauthorizedActionException;
 import com.ayushman.movie.mapper.DtoMapper;
 import com.ayushman.movie.repository.ShowRepository;
 import com.ayushman.movie.repository.TicketRepository;
@@ -40,21 +43,23 @@ public class BookingService {
     }
 
     public TicketResponse viewTicketById(Long id, User user){
-        Ticket ticket = ticketRepository.findById(id).orElseThrow();
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket not found with id: " + id));
         if(!ticket.getUser().getId().equals(user.getId()) && !user.getRole().equals(Role.ADMIN)){
-            throw new IllegalArgumentException("You are not authorized to view this ticket");
+            throw new UnauthorizedActionException("You are not authorized to view this ticket");
         }
         return DtoMapper.toTicketResponse(ticket);
     }
 
     public TicketResponse bookTicket(TicketRequest ticketRequest, User user){
-        Show show = showRepository.findById(ticketRequest.getShowId()).orElseThrow();
+        Show show = showRepository.findById(ticketRequest.getShowId())
+                .orElseThrow(() -> new ResourceNotFoundException("Show not found with id: " + ticketRequest.getShowId()));
         String movieName = show.getMovie().getName();
         long cost = show.getPrice() * ticketRequest.getSeatNumbers().size();
         boolean check = showService.checkSeatAvailability(
                 ticketRequest.getShowId(), ticketRequest.getSeatNumbers());
         if (!check) {
-            throw new IllegalArgumentException("One or more seats are not available");
+            throw new InvalidRequestException("One or more seats are not available");
         }
         for(Integer seatNum : ticketRequest.getSeatNumbers()) {
             show.getAvailSeats().set(seatNum, 1);
@@ -73,9 +78,10 @@ public class BookingService {
     }
 
     public void cancelTicket(Long id, User user){
-        Ticket ticket = ticketRepository.findById(id).orElseThrow();
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket not found with id: " + id));
         if(!ticket.getUser().getId().equals(user.getId()) && !user.getRole().equals(Role.ADMIN)){
-            throw new IllegalArgumentException("You are not authorized to cancel this ticket");
+            throw new UnauthorizedActionException("You are not authorized to cancel this ticket");
         }
         Show show = ticket.getShow();
         for(Integer seatNum : ticket.getSeatNumbers()){

@@ -5,6 +5,8 @@ import com.ayushman.movie.dto.response.ShowResponse;
 import com.ayushman.movie.entity.Hall;
 import com.ayushman.movie.entity.Movie;
 import com.ayushman.movie.entity.Show;
+import com.ayushman.movie.exception.InvalidRequestException;
+import com.ayushman.movie.exception.ResourceNotFoundException;
 import com.ayushman.movie.mapper.DtoMapper;
 import com.ayushman.movie.repository.HallRepository;
 import com.ayushman.movie.repository.MovieRepository;
@@ -35,11 +37,13 @@ public class ShowService {
     }
 
     public ShowResponse getShowById(Long id){
-        return DtoMapper.toShowResponse(showRepository.findById(id).orElseThrow());
+        return DtoMapper.toShowResponse(showRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Show not found with id: " + id)));
     }
 
     public boolean checkSeatAvailability(Long showId, List<Integer> seatNumbers){
-        Show show = showRepository.findById(showId).orElseThrow();
+        Show show = showRepository.findById(showId)
+                .orElseThrow(() -> new ResourceNotFoundException("Show not found with id: " + showId));
         List<Integer> availSeats = show.getAvailSeats();
         for(Integer seatNum : seatNumbers){
             if(availSeats.get(seatNum) == 1){
@@ -50,14 +54,16 @@ public class ShowService {
     }
 
     public ShowResponse createShow(ShowRequest showRequest){
-        Movie movie = movieRepository.findById(showRequest.getMovieId()).orElseThrow();
-        Hall hall = hallRepository.findById(showRequest.getHallId()).orElseThrow();
+        Movie movie = movieRepository.findById(showRequest.getMovieId())
+                .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + showRequest.getMovieId()));
+        Hall hall = hallRepository.findById(showRequest.getHallId())
+                .orElseThrow(() -> new ResourceNotFoundException("Hall not found with id: " + showRequest.getHallId()));
         LocalDateTime end = showRequest.getStart().plusMinutes(movie.getDurationInMinutes() + showRequest.getIntervalTime());
         boolean timeAvailability = hallService.checkTimeAvailability(
                 showRequest.getHallId(), showRequest.getStart(), end
         );
         if(!timeAvailability){
-            throw new IllegalArgumentException("Hall is not available at the given time");
+            throw new InvalidRequestException("Hall is not available at the given time");
         }
         Integer totalSeats = hall.getTotalSeats();
         List<Integer> availSeats = new ArrayList<>();
@@ -77,14 +83,16 @@ public class ShowService {
     }
 
     public ShowResponse updateShowTiming(Long id, ShowRequest showRequest){
-        Show show = showRepository.findById(id).orElseThrow();
-        Movie movie = movieRepository.findById(showRequest.getMovieId()).orElseThrow();
+        Show show = showRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Show not found with id: " + id));
+        Movie movie = movieRepository.findById(showRequest.getMovieId())
+                .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + showRequest.getMovieId()));
         LocalDateTime end = showRequest.getStart().plusMinutes(movie.getDurationInMinutes() + showRequest.getIntervalTime());
         boolean timeAvailability = hallService.checkTimeAvailability(
                 show.getHall().getId(), showRequest.getStart(), end
         );
         if(!timeAvailability){
-            throw new IllegalArgumentException("Hall is not available at the given time");
+            throw new InvalidRequestException("Hall is not available at the given time");
         }
         show.setStart(showRequest.getStart());
         show.setEnd(end);

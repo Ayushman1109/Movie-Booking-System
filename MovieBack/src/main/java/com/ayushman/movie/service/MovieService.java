@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.ayushman.movie.dto.request.MovieRequest;
 import com.ayushman.movie.dto.response.MovieResponse;
 import com.ayushman.movie.entity.Movie;
+import com.ayushman.movie.exception.ResourceNotFoundException;
 import com.ayushman.movie.mapper.DtoMapper;
 import com.ayushman.movie.repository.MovieRepository;
 
@@ -29,7 +30,8 @@ public class MovieService {
     }
 
     public MovieResponse getMovieById(Long id){ 
-        Movie movie = movieRepository.findById(id).orElseThrow();
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
         return DtoMapper.toMovieResponse(movie);
     }
 
@@ -45,7 +47,8 @@ public class MovieService {
     }
 
     public MovieResponse updateMovie(Long id, MovieRequest movieRequest){
-        Movie movie = movieRepository.findById(id).orElseThrow();
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Movie not found with id: " + id));
         movie.setName(movieRequest.getName());
         movie.setLanguage(movieRequest.getLanguage());
         movie.setDurationInMinutes(movieRequest.getDurationInMinutes());

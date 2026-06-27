@@ -3,6 +3,7 @@ package com.ayushman.movie.service;
 import com.ayushman.movie.dto.request.TheatreRequest;
 import com.ayushman.movie.dto.response.TheatreResponse;
 import com.ayushman.movie.entity.Theatre;
+import com.ayushman.movie.exception.ResourceNotFoundException;
 import com.ayushman.movie.mapper.DtoMapper;
 import com.ayushman.movie.repository.TheatreRepository;
 import jakarta.transaction.Transactional;
@@ -35,7 +36,8 @@ public class TheatreService {
     }
 
     public TheatreResponse updateTheatre(long id, TheatreRequest request) {
-        Theatre theatre = theatreRepository.findById(id).orElseThrow();
+        Theatre theatre = theatreRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Theatre not found with id: " + id));
         theatre.setName(request.getName());
         theatre.setAddress(request.getAddress());
         return DtoMapper.toTheatreResponse(theatreRepository.save(theatre));
@@ -46,6 +48,7 @@ public class TheatreService {
     }
 
     public TheatreResponse getTheatreById(long id) {
-        return DtoMapper.toTheatreResponse(theatreRepository.findById(id).orElseThrow());
+        return DtoMapper.toTheatreResponse(theatreRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Theatre not found with id: " + id)));
     }
 }
