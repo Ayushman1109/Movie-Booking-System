@@ -1,7 +1,7 @@
 package com.ayushman.movie.controller;
 
 import com.ayushman.movie.dto.request.TheatreRequest;
-import com.ayushman.movie.entity.Theatre;
+import com.ayushman.movie.dto.response.TheatreResponse;
 import com.ayushman.movie.service.TheatreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,25 +19,25 @@ public class TheatreController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Theatre> createTheatre(@Valid @RequestBody TheatreRequest request) {
+    public ResponseEntity<TheatreResponse> createTheatre(@Valid @RequestBody TheatreRequest request) {
         return ResponseEntity.status(201).body(theatreService.createTheatre(request));
     }
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<Theatre>> getAllTheatres() {
+    public ResponseEntity<List<TheatreResponse>> getAllTheatres() {
         return ResponseEntity.ok(theatreService.getAllTheatres());
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Theatre> getTheatreById(@PathVariable Long id) {
+    public ResponseEntity<TheatreResponse> getTheatreById(@PathVariable Long id) {
         return ResponseEntity.ok(theatreService.getTheatreById(id));
     }
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Theatre> updateTheatre(@PathVariable Long id, @Valid @RequestBody TheatreRequest request) {
+    public ResponseEntity<TheatreResponse> updateTheatre(@PathVariable Long id, @Valid @RequestBody TheatreRequest request) {
         return ResponseEntity.ok(theatreService.updateTheatre(id, request));
     }
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ayushman.movie.entity.Hall;
+import com.ayushman.movie.dto.response.HallResponse;
 import com.ayushman.movie.service.HallService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,19 +28,19 @@ public class HallController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<Hall>> getAllHalls() {
+    public ResponseEntity<List<HallResponse>> getAllHalls() {
         return ResponseEntity.ok(hallService.getAllHalls());
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Hall> getHallById(@PathVariable long id) {
+    public ResponseEntity<HallResponse> getHallById(@PathVariable long id) {
         return ResponseEntity.ok(hallService.getHallById(id));
     }
 
     @PostMapping("/create/{theatreId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Hall> addHallToTheatre(
+    public ResponseEntity<HallResponse> addHallToTheatre(
             @PathVariable long theatreId,
             @RequestParam Integer totalSeats) {
         return ResponseEntity.status(201).body(hallService.addHallToTheatre(theatreId, totalSeats));
@@ -48,7 +48,7 @@ public class HallController {
 
     @PostMapping("/createBulk/{theatreId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<List<Hall>> addHallsToTheatre(
+    public ResponseEntity<List<HallResponse>> addHallsToTheatre(
             @PathVariable long theatreId,
             @RequestBody List<Integer> totalSeatsList) {
         return ResponseEntity.status(201).body(hallService.addHallsToTheatre(theatreId, totalSeatsList));
@@ -56,7 +56,7 @@ public class HallController {
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Hall> updateHall(
+    public ResponseEntity<HallResponse> updateHall(
             @PathVariable long id,
             @RequestParam Integer totalSeats) {
         return ResponseEntity.ok(hallService.updateHall(id, totalSeats));
@@ -64,7 +64,7 @@ public class HallController {
 
     @DeleteMapping("/delete/{hallId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Hall> deleteHall(
+    public ResponseEntity<HallResponse> deleteHall(
             @PathVariable long hallId,
             @RequestParam long theatreId) {
         return ResponseEntity.ok(hallService.deleteHallFromTheatre(theatreId, hallId));

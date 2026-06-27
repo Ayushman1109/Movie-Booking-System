@@ -1,7 +1,7 @@
 package com.ayushman.movie.controller;
 
 import com.ayushman.movie.dto.request.TicketRequest;
-import com.ayushman.movie.entity.Ticket;
+import com.ayushman.movie.dto.response.TicketResponse;
 import com.ayushman.movie.entity.User;
 import com.ayushman.movie.service.BookingService;
 import jakarta.validation.Valid;
@@ -21,19 +21,19 @@ public class BookingController {
 
     @GetMapping()
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<Ticket>> viewTickets(@AuthenticationPrincipal User user){
+    public ResponseEntity<List<TicketResponse>> viewTickets(@AuthenticationPrincipal User user){
         return ResponseEntity.ok(bookingService.viewTickets(user));
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Ticket> viewTicketById(@PathVariable Long id, @AuthenticationPrincipal User user){
+    public ResponseEntity<TicketResponse> viewTicketById(@PathVariable Long id, @AuthenticationPrincipal User user){
         return ResponseEntity.ok(bookingService.viewTicketById(id, user));
     }
 
     @PostMapping("/book")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Ticket> bookTicket(@Valid @RequestBody TicketRequest ticketRequest,
+    public ResponseEntity<TicketResponse> bookTicket(@Valid @RequestBody TicketRequest ticketRequest,
                                              @AuthenticationPrincipal User user){
         return ResponseEntity.status(201).body(bookingService.bookTicket(ticketRequest, user));
     }

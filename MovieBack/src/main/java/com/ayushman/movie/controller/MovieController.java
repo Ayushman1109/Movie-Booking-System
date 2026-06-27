@@ -1,7 +1,7 @@
 package com.ayushman.movie.controller;
 
 import com.ayushman.movie.dto.request.MovieRequest;
-import com.ayushman.movie.entity.Movie;
+import com.ayushman.movie.dto.response.MovieResponse;
 import com.ayushman.movie.service.MovieService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,25 +19,25 @@ public class MovieController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public List<Movie> getAllMovies(){
+    public List<MovieResponse> getAllMovies(){
         return movieService.getAllMovies();
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public Movie getMovieById(@PathVariable Long id){
+    public MovieResponse getMovieById(@PathVariable Long id){
         return movieService.getMovieById(id);
     }
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Movie> createNewMovie(@Valid @RequestBody MovieRequest movieRequest){
+    public ResponseEntity<MovieResponse> createNewMovie(@Valid @RequestBody MovieRequest movieRequest){
         return ResponseEntity.status(201).body(movieService.createNewMovie(movieRequest));
     }
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Movie> updateMovie(@PathVariable Long id, @Valid @RequestBody MovieRequest movieRequest){
+    public ResponseEntity<MovieResponse> updateMovie(@PathVariable Long id, @Valid @RequestBody MovieRequest movieRequest){
         return ResponseEntity.ok(movieService.updateMovie(id, movieRequest));
     }
 

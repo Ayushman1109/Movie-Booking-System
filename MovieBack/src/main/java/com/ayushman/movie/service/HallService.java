@@ -1,8 +1,10 @@
 package com.ayushman.movie.service;
 
+import com.ayushman.movie.dto.response.HallResponse;
 import com.ayushman.movie.entity.Hall;
 import com.ayushman.movie.entity.Show;
 import com.ayushman.movie.entity.Theatre;
+import com.ayushman.movie.mapper.DtoMapper;
 import com.ayushman.movie.repository.HallRepository;
 import com.ayushman.movie.repository.TheatreRepository;
 import jakarta.transaction.Transactional;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -20,31 +23,44 @@ public class HallService {
     private final HallRepository hallRepository;
     private final TheatreRepository theatreRepository;
 
-    public List<Hall> getAllHalls() {
-        return hallRepository.findAll();
+    public List<HallResponse> getAllHalls() {
+        return hallRepository.findAll().stream()
+                .map(DtoMapper::toHallResponse)
+                .collect(Collectors.toList());
     }
 
-    public Hall getHallById(long id) {
-        return hallRepository.findById(id).orElseThrow();
+    public HallResponse getHallById(long id) {
+        return DtoMapper.toHallResponse(hallRepository.findById(id).orElseThrow());
     }
 
-    public Hall updateHall(long id, Integer totalSeats) {
+    public HallResponse updateHall(long id, Integer totalSeats) {
         Hall hall = hallRepository.findById(id).orElseThrow();
         hall.setTotalSeats(totalSeats);
-        return hallRepository.save(hall);
+        return DtoMapper.toHallResponse(hallRepository.save(hall));
     }
 
-    public List<Hall> addHallsToTheatre(long theatreId, List<Integer> totalSeatsList) {
+    public List<HallResponse> addHallsToTheatre(long theatreId, List<Integer> totalSeatsList) {
         Theatre theatre = theatreRepository.findById(theatreId).orElseThrow();
         List<Hall> halls = theatre.getHalls();
+        List<HallResponse> addedHalls = new ArrayList<>();
         List<Show> shows = new ArrayList<>();
         for (Integer totalSeats : totalSeatsList) {
-            halls.add(addHallToTheatre(theatreId, totalSeats));
+            Hall hall = hallRepository.save(
+                    Hall.builder()
+                            .totalSeats(totalSeats)
+                            .theatre(theatre)
+                            .shows(shows)
+                            .build()
+            );
+            halls.add(hall);
+            addedHalls.add(DtoMapper.toHallResponse(hall));
         }
-        return halls;
+        theatre.setHalls(halls);
+        theatreRepository.save(theatre);
+        return addedHalls;
     }
 
-    public Hall addHallToTheatre(long theatreId, Integer totalSeats) {
+    public HallResponse addHallToTheatre(long theatreId, Integer totalSeats) {
         Theatre theatre = theatreRepository.findById(theatreId).orElseThrow();
         List<Hall> halls = theatre.getHalls();
         List<Show> shows = new ArrayList<>();
@@ -58,10 +74,10 @@ public class HallService {
         halls.add(hall);
         theatre.setHalls(halls);
         theatreRepository.save(theatre);
-        return hall;
+        return DtoMapper.toHallResponse(hall);
     }
 
-    public Hall deleteHallFromTheatre(long theatreId, long hallId) {
+    public HallResponse deleteHallFromTheatre(long theatreId, long hallId) {
         Theatre theatre = theatreRepository.findById(theatreId).orElseThrow();
         List<Hall> halls = theatre.getHalls();
         Hall hall = hallRepository.findById(hallId).orElseThrow();
@@ -72,7 +88,7 @@ public class HallService {
         theatre.setHalls(halls);
         theatreRepository.save(theatre);
         hallRepository.deleteById(hallId);
-        return hall;
+        return DtoMapper.toHallResponse(hall);
     }
 
     public boolean checkTimeAvailability(long hallId, LocalDateTime start, LocalDateTime end) {

@@ -1,12 +1,15 @@
 package com.ayushman.movie.service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.ayushman.movie.dto.request.MovieRequest;
+import com.ayushman.movie.dto.response.MovieResponse;
 import com.ayushman.movie.entity.Movie;
+import com.ayushman.movie.mapper.DtoMapper;
 import com.ayushman.movie.repository.MovieRepository;
 
 import jakarta.transaction.Transactional;
@@ -19,13 +22,18 @@ public class MovieService {
 
     private final MovieRepository movieRepository;
 
-    public List<Movie> getAllMovies(){
-        return movieRepository.findAll();
+    public List<MovieResponse> getAllMovies(){
+        return movieRepository.findAll().stream()
+                .map(DtoMapper::toMovieResponse)
+                .collect(Collectors.toList());
     }
 
-    public Movie getMovieById(Long id){ return movieRepository.findById(id).orElseThrow(); }
+    public MovieResponse getMovieById(Long id){ 
+        Movie movie = movieRepository.findById(id).orElseThrow();
+        return DtoMapper.toMovieResponse(movie);
+    }
 
-    public Movie createNewMovie(MovieRequest movieRequest){
+    public MovieResponse createNewMovie(MovieRequest movieRequest){
         Movie movie = Movie.builder()
                 .name(movieRequest.getName())
                 .language(movieRequest.getLanguage())
@@ -33,17 +41,17 @@ public class MovieService {
                 .rating(movieRequest.getRating())
                 .posterUrl(movieRequest.getPosterUrl())
                 .build();
-        return movieRepository.save(movie);
+        return DtoMapper.toMovieResponse(movieRepository.save(movie));
     }
 
-    public Movie updateMovie(Long id, MovieRequest movieRequest){
+    public MovieResponse updateMovie(Long id, MovieRequest movieRequest){
         Movie movie = movieRepository.findById(id).orElseThrow();
         movie.setName(movieRequest.getName());
         movie.setLanguage(movieRequest.getLanguage());
         movie.setDurationInMinutes(movieRequest.getDurationInMinutes());
         movie.setRating(movieRequest.getRating());
         movie.setPosterUrl(movieRequest.getPosterUrl());
-        return movieRepository.save(movie);
+        return DtoMapper.toMovieResponse(movieRepository.save(movie));
     }
 
     public void deleteMovie(@PathVariable Long id){

@@ -1,7 +1,7 @@
 package com.ayushman.movie.controller;
 
 import com.ayushman.movie.dto.request.ShowRequest;
-import com.ayushman.movie.entity.Show;
+import com.ayushman.movie.dto.response.ShowResponse;
 import com.ayushman.movie.service.ShowService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,23 +19,23 @@ public class ShowController {
 
     @GetMapping
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<List<Show>> getAllShows(){ return ResponseEntity.ok(showService.getAllShows()); }
+    public ResponseEntity<List<ShowResponse>> getAllShows(){ return ResponseEntity.ok(showService.getAllShows()); }
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<Show> getShowById(@PathVariable Long id){
+    public ResponseEntity<ShowResponse> getShowById(@PathVariable Long id){
         return ResponseEntity.ok(showService.getShowById(id));
     }
 
     @PostMapping("/create")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Show> createShow(@Valid @RequestBody ShowRequest showRequest){
+    public ResponseEntity<ShowResponse> createShow(@Valid @RequestBody ShowRequest showRequest){
         return ResponseEntity.status(201).body(showService.createShow(showRequest));
     }
 
     @PutMapping("/update/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public ResponseEntity<Show> updateShowTiming(@PathVariable Long id, @Valid @RequestBody ShowRequest showRequest){
+    public ResponseEntity<ShowResponse> updateShowTiming(@PathVariable Long id, @Valid @RequestBody ShowRequest showRequest){
         return ResponseEntity.ok(showService.updateShowTiming(id, showRequest));
     }
 

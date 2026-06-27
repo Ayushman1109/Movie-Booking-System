@@ -1,9 +1,11 @@
 package com.ayushman.movie.service;
 
 import com.ayushman.movie.dto.request.ShowRequest;
+import com.ayushman.movie.dto.response.ShowResponse;
 import com.ayushman.movie.entity.Hall;
 import com.ayushman.movie.entity.Movie;
 import com.ayushman.movie.entity.Show;
+import com.ayushman.movie.mapper.DtoMapper;
 import com.ayushman.movie.repository.HallRepository;
 import com.ayushman.movie.repository.MovieRepository;
 import com.ayushman.movie.repository.ShowRepository;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -25,12 +28,14 @@ public class ShowService {
     private final HallRepository hallRepository;
     private final HallService hallService;
 
-    public List<Show> getAllShows(){
-        return showRepository.findAll();
+    public List<ShowResponse> getAllShows(){
+        return showRepository.findAll().stream()
+                .map(DtoMapper::toShowResponse)
+                .collect(Collectors.toList());
     }
 
-    public Show getShowById(Long id){
-        return showRepository.findById(id).orElseThrow();
+    public ShowResponse getShowById(Long id){
+        return DtoMapper.toShowResponse(showRepository.findById(id).orElseThrow());
     }
 
     public boolean checkSeatAvailability(Long showId, List<Integer> seatNumbers){
@@ -44,7 +49,7 @@ public class ShowService {
         return true;
     }
 
-    public Show createShow(ShowRequest showRequest){
+    public ShowResponse createShow(ShowRequest showRequest){
         Movie movie = movieRepository.findById(showRequest.getMovieId()).orElseThrow();
         Hall hall = hallRepository.findById(showRequest.getHallId()).orElseThrow();
         LocalDateTime end = showRequest.getStart().plusMinutes(movie.getDurationInMinutes() + showRequest.getIntervalTime());
@@ -68,10 +73,10 @@ public class ShowService {
                 .availSeats(availSeats)
                 .build();
 
-        return showRepository.save(show);
+        return DtoMapper.toShowResponse(showRepository.save(show));
     }
 
-    public Show updateShowTiming(Long id, ShowRequest showRequest){
+    public ShowResponse updateShowTiming(Long id, ShowRequest showRequest){
         Show show = showRepository.findById(id).orElseThrow();
         Movie movie = movieRepository.findById(showRequest.getMovieId()).orElseThrow();
         LocalDateTime end = showRequest.getStart().plusMinutes(movie.getDurationInMinutes() + showRequest.getIntervalTime());
@@ -83,7 +88,7 @@ public class ShowService {
         }
         show.setStart(showRequest.getStart());
         show.setEnd(end);
-        return showRepository.save(show);
+        return DtoMapper.toShowResponse(showRepository.save(show));
     }
 
     public void deleteShow(Long id){
